@@ -1,0 +1,128 @@
+﻿********************************************************************************
+If you like PlatformIO, please:
+- star it on GitHub > https://github.com/platformio/platformio-core
+- follow us on LinkedIn to stay up-to-date on the latest project news > https://www.linkedin.com/company/platformio/
+- try PlatformIO IDE for embedded development > https://platformio.org/platformio-ide
+********************************************************************************
+
+Processing esp32dev (platform: espressif32; board: esp32dev; framework: arduino)
+--------------------------------------------------------------------------------
+Platform Manager: Installing espressif32
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Platform Manager: espressif32@6.13.0 has been installed!
+Tool Manager: Installing espressif/toolchain-xtensa-esp32 @ 8.4.0+2021r2-patch5
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Tool Manager: toolchain-xtensa-esp32@8.4.0+2021r2-patch5 has been installed!
+Tool Manager: Installing platformio/framework-arduinoespressif32 @ ~3.20017.0
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Tool Manager: framework-arduinoespressif32@3.20017.241212+sha.dcc1105b has been installed!
+Tool Manager: Installing platformio/tool-esptoolpy @ ~2.41100.0
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Collecting cryptography~=45.0.3
+  Using cached cryptography-45.0.7-cp311-abi3-win_amd64.whl.metadata (5.7 kB)
+Collecting ecdsa~=0.19.1
+  Using cached ecdsa-0.19.1-py2.py3-none-any.whl.metadata (29 kB)
+Collecting bitstring~=4.3.1
+  Using cached bitstring-4.3.1-py3-none-any.whl.metadata (5.3 kB)
+Collecting reedsolo~=1.7.0
+  Using cached reedsolo-1.7.0-py3-none-any.whl.metadata (23 kB)
+Collecting intelhex~=2.3.0
+  Using cached intelhex-2.3.0-py2.py3-none-any.whl.metadata (2.7 kB)
+Collecting cffi>=1.14 (from cryptography~=45.0.3)
+  Using cached cffi-2.0.0-cp311-cp311-win_amd64.whl.metadata (2.6 kB)
+Collecting six>=1.9.0 (from ecdsa~=0.19.1)
+  Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting bitarray<4.0,>=3.0.0 (from bitstring~=4.3.1)
+  Using cached bitarray-3.8.0-cp311-cp311-win_amd64.whl.metadata (35 kB)
+Collecting pycparser (from cffi>=1.14->cryptography~=45.0.3)
+  Using cached pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+Using cached cryptography-45.0.7-cp311-abi3-win_amd64.whl (3.4 MB)
+Using cached ecdsa-0.19.1-py2.py3-none-any.whl (150 kB)
+Using cached bitstring-4.3.1-py3-none-any.whl (71 kB)
+Using cached reedsolo-1.7.0-py3-none-any.whl (32 kB)
+Using cached intelhex-2.3.0-py2.py3-none-any.whl (50 kB)
+Using cached bitarray-3.8.0-cp311-cp311-win_amd64.whl (149 kB)
+Using cached cffi-2.0.0-cp311-cp311-win_amd64.whl (182 kB)
+Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+Using cached pycparser-3.0-py3-none-any.whl (48 kB)
+Installing collected packages: reedsolo, intelhex, bitarray, six, pycparser, bitstring, ecdsa, cffi, cryptography
+
+Successfully installed bitarray-3.8.0 bitstring-4.3.1 cffi-2.0.0 cryptography-45.0.7 ecdsa-0.19.1 intelhex-2.3.0 pycparser-3.0 reedsolo-1.7.0 six-1.17.0
+pio.exe : 
+At line:1 char:64
++ ... .pio\core"; & "$env:USERPROFI
+LE\.platformio\penv\Scripts\pio.exe
+" run ...
++                 ~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo          : 
+NotSpeci    fied: (:String) [], 
+RemoteExceptio    n
+    + FullyQualifiedErrorId : 
+NativeCo    mmandError
+ 
+[notice] A new release of pip is 
+available: 25.2 -> 26.0.1
+[notice] To update, run: C:\Users\e
+holl\.platformio\penv\Scripts\pytho
+n.exe -m pip install --upgrade pip
+Tool Manager: tool-esptoolpy@2.41100.0 has been installed!
+Tool Manager: Installing platformio/tool-scons @ ~4.40801.0
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Tool Manager: tool-scons@4.40801.0 has been installed!
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/esp32dev.html
+PLATFORM: Espressif 32 (6.13.0) > Espressif ESP32 Dev Module
+HARDWARE: ESP32 240MHz, 320KB RAM, 4MB Flash
+DEBUG: Current (cmsis-dap) External (cmsis-dap, esp-bridge, esp-prog, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+PACKAGES: 
+ - framework-arduinoespressif32 @ 3.20017.241212+sha.dcc1105b 
+ - tool-esptoolpy @ 2.41100.0 (4.11.0) 
+ - toolchain-xtensa-esp32 @ 8.4.0+2021r2-patch5
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 36 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- ESP32 HUB75 LED MATRIX PANEL DMA Display @ 3.0.14
+|-- Adafruit GFX Library @ 1.12.5
+|-- WiFi @ 2.0.0
+Building in release mode
+Building .pio\build\esp32dev\bootloader.bin
+Generating partitions .pio\build\esp32dev\partitions.bin
+Compiling .pio\build\esp32dev\libebc\Wire\Wire.cpp.o
+Compiling .pio\build\esp32dev\lib35d\SPI\SPI.cpp.o
+esptool.py v4.11.0
+Creating esp32 image...
+Merged 1 ELF section
+Successfully created esp32 image.
+Compiling .pio\build\esp32dev\lib96c\WiFi\WiFi.cpp.o
+Compiling .pio\build\esp32dev\lib96c\WiFi\WiFiAP.cpp.o
+Compiling .pio\build\esp32dev\lib96c\WiFi\WiFiClient.cpp.o
+Compiling .pio\build\esp32dev\lib96c\WiFi\WiFiGeneric.cpp.o
+Compiling .pio\build\esp32dev\lib96c\WiFi\WiFiMulti.cpp.o
+Compiling .pio\build\esp32dev\lib96c\WiFi\WiFiSTA.cpp.o
+Compiling .pio\build\esp32dev\lib96c\WiFi\WiFiScan.cpp.o
+Compiling .pio\build\esp32dev\lib96c\WiFi\WiFiServer.cpp.o
+Compiling .pio\build\esp32dev\lib96c\WiFi\WiFiUdp.cpp.o
+Archiving .pio\build\esp32dev\lib35d\libSPI.a
+Archiving .pio\build\esp32dev\libebc\libWire.a
+Archiving .pio\build\esp32dev\lib96c\libWiFi.a
+Linking .pio\build\esp32dev\firmware.elf
+Retrieving maximum program size .pio\build\esp32dev\firmware.elf
+Checking size .pio\build\esp32dev\firmware.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [=         ]  14.0% (used 45984 bytes from 327680 bytes)
+Flash: [======    ]  58.6% (used 768553 bytes from 1310720 bytes)
+Building .pio\build\esp32dev\firmware.bin
+esptool.py v4.11.0
+Creating esp32 image...
+Merged 27 ELF sections
+Successfully created esp32 image.
+======================== [SUCCESS] Took 210.17 seconds ========================
