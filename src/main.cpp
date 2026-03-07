@@ -15,7 +15,27 @@
  */
 
 // Display libraries
+
+
+#define R1_PIN 1
+#define G1_PIN 2
+#define B1_PIN 3
+#define R2_PIN 4
+#define G2_PIN 5
+#define B2_PIN 6
+#define A_PIN 7
+#define B_PIN 8
+#define C_PIN 9
+#define D_PIN 10
+#define E_PIN -1 // required for 1/32 scan panels, like 64x64px. Any available pin would do, i.e. IO32
+#define LAT_PIN 11
+#define OE_PIN 12
+#define CLK_PIN 13
+
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
+
+HUB75_I2S_CFG::i2s_pins _pins={R1_PIN, G1_PIN, B1_PIN, R2_PIN, G2_PIN, B2_PIN, A_PIN, B_PIN, C_PIN, D_PIN, E_PIN, LAT_PIN, OE_PIN, CLK_PIN};
+
 
 // WiFi credentials (replace with your actual network)
 const char* ssid     = SSID;
@@ -44,17 +64,11 @@ void printLocalTime() {
     dma_display->clearScreen();
     dma_display->setCursor(2, 0); // (x,y)
     dma_display->setTextColor(dma_display->color565(255, 255, 255)); // White text
-    dma_display->setTextSize(2);
+    dma_display->setTextSize(1);
     
     char timeStr[9];
-    strftime(timeStr, sizeof(timeStr), "%H:%M", &timeinfo);
+    strftime(timeStr, sizeof(timeStr), "%H:%M:%S", &timeinfo);
     dma_display->print(timeStr);
-    strftime(timeStr, sizeof(timeStr), "%S", &timeinfo);
-    dma_display->setTextSize(2);
-    dma_display->setTextColor(dma_display->color565(255, 0, 0)); // Red text
-    dma_display->setCursor(20, 16);
-    dma_display->print(timeStr);
-
 }
 
 void setup() {
@@ -64,7 +78,8 @@ void setup() {
     HUB75_I2S_CFG mxconfig(
         PANEL_RES_X,   // module width
         PANEL_RES_Y,   // module height
-        PANEL_CHAIN    // chain length
+        PANEL_CHAIN,    // chain length
+        _pins       
     );
     // Optional: override default pins if needed
     // mxconfig.gpio.e = 18;
