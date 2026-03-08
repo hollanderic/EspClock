@@ -39,13 +39,13 @@ const int   daylightOffset_sec = 3600;
 // LED Matrix settings
 #define PANEL_RES_X 64      // Number of pixels wide of each INDIVIDUAL panel module. 
 #define PANEL_RES_Y 32      // Number of pixels tall of each INDIVIDUAL panel module. 
-#define PANEL_CHAIN 1       // Total number of panels chained one to another
+#define PANEL_CHAIN 2       // Total number of panels chained one to another
 
 MatrixPanel_I2S_DMA *dma_display = nullptr;
 
 // Rocket launch state
 time_t nextLaunchEpoch = 0;
-char launchName[11] = ""; // 10 chars + null terminator
+char launchName[22] = ""; // 21 chars + null terminator
 unsigned long lastLaunchFetch = 0;
 const unsigned long LAUNCH_FETCH_INTERVAL = 1 * 60 * 60 * 1000; // 1 hour in ms
 bool fetchingLaunch = false;
@@ -88,8 +88,8 @@ void fetchNextLaunch() {
                     }
                     const char* name = doc["results"][0]["name"];
                     if (name) {
-                        strncpy(launchName, name, 10);
-                        launchName[10] = '\0';
+                        strncpy(launchName, name, 20);
+                        launchName[20] = '\0';
                         Serial.printf("Launch Name: %s\n", launchName);
                     }
                 } else {
@@ -116,9 +116,9 @@ void printLocalTime() {
     Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 
     dma_display->clearScreen();
-    dma_display->setCursor(2, 0); // (x,y)
+    dma_display->setCursor(16, 0); // (x,y)
     dma_display->setTextColor(dma_display->color565(255, 255, 255)); // White text
-    dma_display->setTextSize(1);
+    dma_display->setTextSize(2);
     
     char timeStr[9];
     strftime(timeStr, sizeof(timeStr), "%H:%M:%S", &timeinfo);
@@ -130,13 +130,13 @@ void printLocalTime() {
     // Launch countdown display
     if (nextLaunchEpoch > 0) {
         // Line 2: launch name
-        dma_display->setCursor(2, 8);
+        dma_display->setCursor(2, 16);
         dma_display->setTextColor(dma_display->color565(0, 255, 255)); // Cyan
         dma_display->setTextSize(1);
         dma_display->print(launchName);
 
         // Line 3: countdown
-        dma_display->setCursor(2, 16);
+        dma_display->setCursor(2, 24);
         dma_display->setTextSize(1);
         
         long diff = nextLaunchEpoch - now;
@@ -147,10 +147,7 @@ void printLocalTime() {
             int minutes = (diff % 3600) / 60;
             int seconds = diff % 60;
             char cndStr[22];
-            sprintf(cndStr, "T-%d days", days);
-            dma_display->print(cndStr);
-            dma_display->setCursor(2, 24);
-            sprintf(cndStr, "%02d:%02d:%02d", hours, minutes, seconds);
+            sprintf(cndStr, "T-%dd:%02dh:%02dm:%02ds", days, hours, minutes, seconds);
             dma_display->print(cndStr);
 
 
