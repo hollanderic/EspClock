@@ -80,7 +80,7 @@ void fetchNextLaunch() {
                         // Example: 2026-03-10T03:14:00Z
                         if (strptime(net, "%Y-%m-%dT%H:%M:%SZ", &tm) != NULL) {
                             // Convert UTC tm to epoch
-                            nextLaunchEpoch = mktime(&tm) - gmtOffset_sec - daylightOffset_sec;
+                            nextLaunchEpoch = mktime(&tm) + gmtOffset_sec + daylightOffset_sec;
                             Serial.printf("Next Launch: %s, Epoch: %ld\n", net, nextLaunchEpoch);
                         } else {
                             Serial.println("Failed to parse net string");
