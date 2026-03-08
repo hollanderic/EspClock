@@ -56,12 +56,12 @@ void fetchNextLaunch() {
         client.setInsecure(); // Allow connections without verifying the SSL certificate
         HTTPClient http;
         Serial.println("Fetching next rocket launch...");
-        char timeStr[9];
-        strcpy(timeStr, "Fetching");
         dma_display->setCursor(2, 16);
-        dma_display->setTextColor(dma_display->color565(150, 150, 150));
+        dma_display->setTextColor(dma_display->color565(150, 150, 150), 0); // Gray text on black background
         dma_display->setTextSize(1);
-        dma_display->print(timeStr);
+        dma_display->print("Fetching             ");
+        dma_display->setCursor(2, 24);
+        dma_display->print("                     "); // clear line 3
         Serial.println("doing url");
         http.begin(client, "https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=1&location__ids=12,27");
         http.setTimeout(10000);
@@ -115,9 +115,8 @@ void printLocalTime() {
     }
     Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 
-    dma_display->clearScreen();
     dma_display->setCursor(16, 0); // (x,y)
-    dma_display->setTextColor(dma_display->color565(255, 255, 255)); // White text
+    dma_display->setTextColor(dma_display->color565(255, 255, 255), 0); // White text on black bg
     dma_display->setTextSize(2);
     
     char timeStr[9];
@@ -131,9 +130,11 @@ void printLocalTime() {
     if (nextLaunchEpoch > 0) {
         // Line 2: launch name
         dma_display->setCursor(2, 16);
-        dma_display->setTextColor(dma_display->color565(0, 255, 255)); // Cyan
+        dma_display->setTextColor(dma_display->color565(0, 255, 255), 0); // Cyan text on black bg
         dma_display->setTextSize(1);
-        dma_display->print(launchName);
+        char paddedName[22];
+        snprintf(paddedName, sizeof(paddedName), "%-21s", launchName);
+        dma_display->print(paddedName);
 
         // Line 3: countdown
         dma_display->setCursor(2, 24);
@@ -141,20 +142,22 @@ void printLocalTime() {
         
         long diff = nextLaunchEpoch - now;
         if (diff > 0) {
-            dma_display->setTextColor(dma_display->color565(255, 165, 0)); // Orange
+            dma_display->setTextColor(dma_display->color565(255, 165, 0), 0); // Orange text on black bg
             int days = diff / 86400;
             int hours = (diff % 86400) / 3600;
             int minutes = (diff % 3600) / 60;
             int seconds = diff % 60;
-            char cndStr[22];
-            sprintf(cndStr, "T-%dd:%02dh:%02dm:%02ds", days, hours, minutes, seconds);
-            dma_display->print(cndStr);
+            char cndStr[25];
+            snprintf(cndStr, sizeof(cndStr), "T-%dd:%02dh:%02dm:%02ds", days, hours, minutes, seconds);
+            char paddedCndStr[22];
+            snprintf(paddedCndStr, sizeof(paddedCndStr), "%-21s", cndStr);
+            dma_display->print(paddedCndStr);
 
 
         } else if (diff > -3600) {
              // Just launched (within 1 hour)
-             dma_display->setTextColor(dma_display->color565(0, 255, 0)); // Green
-             dma_display->print("Launched!");
+             dma_display->setTextColor(dma_display->color565(0, 255, 0), 0); // Green text on black bg
+             dma_display->print("Launched!            ");
         } else {
             // Force fetch on next loop
             nextLaunchEpoch = 0;
@@ -208,6 +211,7 @@ void setup() {
       // Initial fetch of next launch
       fetchNextLaunch();
       
+      dma_display->clearScreen(); // Clear setup messages like "NTP..." before normal loop
       printLocalTime();
     } else {
       Serial.println("WiFi connection failed.");
