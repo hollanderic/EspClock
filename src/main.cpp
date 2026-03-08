@@ -6,20 +6,7 @@
 #include "time.h"
 #include "privateinfo.h" // Contains WiFi credentials and other private info
 
-/*  Pin signal connections:
- *  R1_PIN: 25   G1_PIN: 26   B1_PIN: 27
- *  R2_PIN: 14   G2_PIN: 12   B2_PIN: 13
- *  A_PIN:  23   B_PIN:  19   C_PIN:  5
- *  D_PIN:  17   E_PIN:  -1
- *  LAT_PIN: 4   OE_PIN: 15   CLK_PIN: 16
- *
- *  E_PIN is required for 1/32 scan panels, like 64x64px.
- *  Any available pin would do, i.e. IO32.
- */
-
-// Display libraries
-
-
+// Pin signal connections:
 #define R1_PIN 1
 #define G1_PIN 2
 #define B1_PIN 3
