@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include "time.h"
@@ -57,12 +58,15 @@ MatrixPanel_I2S_DMA *dma_display = nullptr;
 
 // Rocket launch state
 time_t nextLaunchEpoch = 0;
+char launchName[11] = ""; // 10 chars + null terminator
 unsigned long lastLaunchFetch = 0;
-const unsigned long LAUNCH_FETCH_INTERVAL = 4 * 60 * 60 * 1000; // 4 hours in ms
+const unsigned long LAUNCH_FETCH_INTERVAL = 1 * 60 * 60 * 1000; // 1 hour in ms
 bool fetchingLaunch = false;
 
 void fetchNextLaunch() {
     if (WiFi.status() == WL_CONNECTED) {
+        WiFiClientSecure client;
+        client.setInsecure(); // Allow connections without verifying the SSL certificate
         HTTPClient http;
         Serial.println("Fetching next rocket launch...");
         char timeStr[9];
@@ -71,8 +75,12 @@ void fetchNextLaunch() {
         dma_display->setTextColor(dma_display->color565(150, 150, 150));
         dma_display->setTextSize(1);
         dma_display->print(timeStr);
-        http.begin("https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=1&location__ids=12,27");
+        Serial.println("doing url");
+        http.begin(client, "https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=1&location__ids=12,27");
+        http.setTimeout(10000);
+        Serial.println("doing get");
         int httpCode = http.GET();
+        Serial.printf("HTTP GET code: %d\n", httpCode);
         if (httpCode > 0) {
             if (httpCode == HTTP_CODE_OK) {
                 String payload = http.getString();
@@ -90,6 +98,12 @@ void fetchNextLaunch() {
                         } else {
                             Serial.println("Failed to parse net string");
                         }
+                    }
+                    const char* name = doc["results"][0]["name"];
+                    if (name) {
+                        strncpy(launchName, name, 10);
+                        launchName[10] = '\0';
+                        Serial.printf("Launch Name: %s\n", launchName);
                     }
                 } else {
                     Serial.print("deserializeJson() failed: ");
@@ -128,28 +142,31 @@ void printLocalTime() {
     
     // Launch countdown display
     if (nextLaunchEpoch > 0) {
+        // Line 2: launch name
+        dma_display->setCursor(2, 8);
+        dma_display->setTextColor(dma_display->color565(0, 255, 255)); // Cyan
+        dma_display->setTextSize(1);
+        dma_display->print(launchName);
+
+        // Line 3: countdown
         dma_display->setCursor(2, 16);
         dma_display->setTextSize(1);
         
         long diff = nextLaunchEpoch - now;
         if (diff > 0) {
             dma_display->setTextColor(dma_display->color565(255, 165, 0)); // Orange
-            if (diff > 86400) {
-                // More than 24 hours
-                int days = diff / 86400;
-                int hours = (diff % 86400) / 3600;
-                char cndStr[20];
-                sprintf(cndStr, "T-%dd %02dh", days, hours);
-                dma_display->print(cndStr);
-            } else {
-                // Less than 24 hours
-                int hours = diff / 3600;
-                int minutes = (diff % 3600) / 60;
-                int seconds = diff % 60;
-                char cndStr[20];
-                sprintf(cndStr, "T-%02d:%02d:%02d", hours, minutes, seconds);
-                dma_display->print(cndStr);
-            }
+            int days = diff / 86400;
+            int hours = (diff % 86400) / 3600;
+            int minutes = (diff % 3600) / 60;
+            int seconds = diff % 60;
+            char cndStr[22];
+            sprintf(cndStr, "T-%d days", days);
+            dma_display->print(cndStr);
+            dma_display->setCursor(2, 24);
+            sprintf(cndStr, "%02d:%02d:%02d", hours, minutes, seconds);
+            dma_display->print(cndStr);
+
+
         } else if (diff > -3600) {
              // Just launched (within 1 hour)
              dma_display->setTextColor(dma_display->color565(0, 255, 0)); // Green
@@ -200,7 +217,7 @@ void setup() {
       dma_display->setCursor(0, 4);
       dma_display->setTextColor(dma_display->color565(0, 0, 255));
       dma_display->print("NTP...");
-
+      delay(2000);  
       // Init and get the time
       configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
       
