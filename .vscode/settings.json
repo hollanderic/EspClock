@@ -5,6 +5,10 @@
     ],
     "clangd.arguments": [
         "--compile-commands-dir=${workspaceFolder}",
-        "--query-driver=C:/Users/eholl/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-*"
+        "--query-driver=C:/Users/eholl/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-*",
+        "--target=xtensa-esp32s3-elf",
+        "-I/home/eholl/.platformio/packages/framework-arduinoespressif32/cores/esp32",
+        "-I/home/eholl/.platformio/packages/framework-arduinoespressif32/libraries",
+        "-I/home/eholl/.platformio/packages/framework-arduinoespressif32/variants/adafruit_feather_esp32s3"
     ]
 }
