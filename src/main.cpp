@@ -62,8 +62,17 @@ void fetchNextLaunch() {
         dma_display->print("Fetching             ");
         dma_display->setCursor(2, 24);
         dma_display->print("                     "); // clear line 3
-        Serial.println("doing url");
-        http.begin(client, "https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=1&location__ids=12,27");
+        String url = "https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=1&location__ids=12,27&window_start__gt=";
+        time_t now;
+        time(&now);
+        struct tm tm_utc;
+        gmtime_r(&now, &tm_utc);
+        char timeStr[30];
+        strftime(timeStr, sizeof(timeStr), "%Y-%m-%dT%H:%M:%SZ", &tm_utc);
+        url += timeStr;
+        Serial.print("doing url: ");
+        Serial.println(url);
+        http.begin(client, url.c_str());
         http.setTimeout(10000);
         Serial.println("doing get");
         int httpCode = http.GET();
