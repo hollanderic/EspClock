@@ -39,13 +39,13 @@ const int   daylightOffset_sec = 3600;
 // LED Matrix settings
 #define PANEL_RES_X 64      // Number of pixels wide of each INDIVIDUAL panel module. 
 #define PANEL_RES_Y 32      // Number of pixels tall of each INDIVIDUAL panel module. 
-#define PANEL_CHAIN 2       // Total number of panels chained one to another
+#define PANEL_CHAIN 3       // Total number of panels chained one to another
 
 MatrixPanel_I2S_DMA *dma_display = nullptr;
 
 // Rocket launch state
 time_t nextLaunchEpoch = 0;
-char launchName[22] = ""; // 21 chars + null terminator
+char launchName[32] = ""; // 31 chars + null terminator
 unsigned long lastLaunchFetch = 0;
 const unsigned long LAUNCH_FETCH_INTERVAL = 1 * 60 * 60 * 1000; // 1 hour in ms
 bool fetchingLaunch = false;
@@ -97,8 +97,8 @@ void fetchNextLaunch() {
                     }
                     const char* name = doc["results"][0]["name"];
                     if (name) {
-                        strncpy(launchName, name, 20);
-                        launchName[20] = '\0';
+                        strncpy(launchName, name, 31);
+                        launchName[31] = '\0';
                         Serial.printf("Launch Name: %s\n", launchName);
                     }
                 } else {
@@ -141,8 +141,8 @@ void printLocalTime() {
         dma_display->setCursor(2, 16);
         dma_display->setTextColor(dma_display->color565(0, 255, 255), 0); // Cyan text on black bg
         dma_display->setTextSize(1);
-        char paddedName[22];
-        snprintf(paddedName, sizeof(paddedName), "%-21s", launchName);
+        char paddedName[34];
+        snprintf(paddedName, sizeof(paddedName), "%-31s", launchName);
         dma_display->print(paddedName);
 
         // Line 3: countdown
