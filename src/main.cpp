@@ -6,6 +6,7 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 
+#ifdef BOARD_ESP32DEV
 // Pin signal connections:
 #define R1_PIN 18
 #define G1_PIN 25
@@ -23,6 +24,7 @@
 #define LAT_PIN 19
 #define OE_PIN 15
 #define CLK_PIN 2
+#endif
 
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
 
