@@ -1,6 +1,13 @@
 CompileFlags:
   Remove: [-fno-fat-lto-objects, -mno-thumb-interwork, -fstack-usage, -mlongcalls, -fstrict-volatile-bitfields, -fno-tree-switch-conversion]
   Add: [-Wno-unknown-attributes, --target=xtensa-esp32s3-elf, 
-        -I/home/eholl/.platformio/packages/framework-arduinoespressif32/cores/esp32,
-        -I/home/eholl/.platformio/packages/framework-arduinoespressif32/libraries,
-        -I/home/eholl/.platformio/packages/framework-arduinoespressif32/variants/adafruit_feather_esp32s3]
+        -I/Users/eholl/.platformio/packages/framework-arduinoespressif32/cores/esp32,
+        -I/Users/eholl/.platformio/packages/framework-arduinoespressif32/libraries,
+        -I/Users/eholl/.platformio/packages/framework-arduinoespressif32/variants/adafruit_feather_esp32s3,
+        -I.pio/libdeps/esp32s3dev/ESP32-HUB75-MatrixPanel-I2S-DMA/src,
+        -I.pio/libdeps/esp32s3dev/Adafruit_GFX,
+        -I/Users/eholl/.platformio/packages/framework-arduinoespressif32/libraries/HTTPClient/src,
+        -I/Users/eholl/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src,
+        -I/Users/eholl/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src,
+        -I/Users/eholl/.platformio/packages/framework-arduinoespressif32/libraries/ArduinoJson/src,
+        ]
