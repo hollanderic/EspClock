@@ -115,14 +115,22 @@ void printLocalTime() {
   }
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 
-  dma_display->setCursor(16, 0); // (x,y)
+  dma_display->setCursor(2, 0); // (x,y)
   dma_display->setTextColor(dma_display->color565(255, 255, 255),
                             0); // White text on black bg
   dma_display->setTextSize(2);
 
+  char dateStr[11];
+  strftime(dateStr, sizeof(dateStr), "%m/%d/%Y", &timeinfo);
+
   char timeStr[9];
   strftime(timeStr, sizeof(timeStr), "%H:%M:%S", &timeinfo);
-  dma_display->print(timeStr);
+
+  char dateTimeStr[32];
+  int padding = 21 - strlen(dateStr);
+  if (padding < 0) padding = 0;
+  snprintf(dateTimeStr, sizeof(dateTimeStr), "%s%*s", dateStr, padding, timeStr);
+  dma_display->print(dateTimeStr);
 
   time_t now;
   time(&now);
@@ -146,15 +154,26 @@ void printLocalTime() {
     if (diff > 0) {
       dma_display->setTextColor(dma_display->color565(255, 165, 0),
                                 0); // Orange text on black bg
+
+      time_t launchTimeObj = (time_t)nextLaunchEpoch;
+      struct tm launchTm;
+      localtime_r(&launchTimeObj, &launchTm);
+      char dateStr[20];
+      strftime(dateStr, sizeof(dateStr), "%m/%d/%y %H:%M", &launchTm);
+
       int days = diff / 86400;
       int hours = (diff % 86400) / 3600;
       int minutes = (diff % 3600) / 60;
       int seconds = diff % 60;
-      char cndStr[25];
-      snprintf(cndStr, sizeof(cndStr), "T-%dd:%02dh:%02dm:%02ds", days, hours,
+      
+      char tMinusStr[32];
+      snprintf(tMinusStr, sizeof(tMinusStr), "T-%dd:%02dh:%02dm:%02ds", days, hours,
                minutes, seconds);
-      char paddedCndStr[22];
-      snprintf(paddedCndStr, sizeof(paddedCndStr), "%-21s", cndStr);
+               
+      char paddedCndStr[44];
+      int padding = 41 - strlen(dateStr);
+      if (padding < 0) padding = 0;
+      snprintf(paddedCndStr, sizeof(paddedCndStr), "%s%*s", dateStr, padding, tMinusStr);
       dma_display->print(paddedCndStr);
 
     } else if (diff > -3600) {
